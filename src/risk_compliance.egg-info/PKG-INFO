@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: risk-compliance
+Version: 0.1.0
+Summary: Risk and compliance module for AI Trading Machine
+Author: AI Trading Machine Team
+Author-email: team@aitradingmachine.com
+Requires-Python: >=3.8
+Requires-Dist: pandas>=1.5.0
+Requires-Dist: numpy>=1.22.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: shared-services>=0.1.0
+Requires-Dist: google-cloud-firestore>=2.0.0
+Requires-Dist: google-cloud-storage>=2.0.0
+Requires-Dist: google-cloud-pubsub>=2.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
