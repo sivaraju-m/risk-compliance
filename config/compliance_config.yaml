@@ -1,0 +1,90 @@
+compliance_rules:
+  position_limit:
+    rule_type: "position_size"
+    parameters:
+      max_position_pct: 0.05
+      symbol_specific: {}
+    severity: "ERROR"
+    enabled: true
+  
+  sector_concentration:
+    rule_type: "concentration"
+    parameters:
+      max_sector_pct: 0.30
+    severity: "WARNING"
+    enabled: true
+  
+  daily_turnover_limit:
+    rule_type: "turnover"
+    parameters:
+      max_daily_turnover: 0.20
+    severity: "WARNING"
+    enabled: true
+  
+  wash_sale_detection:
+    rule_type: "wash_sale"
+    parameters:
+      lookback_days: 30
+      threshold_pct: 0.05
+    severity: "ERROR"
+    enabled: true
+  
+  short_selling_check:
+    rule_type: "short_selling"
+    parameters:
+      allow_short: false
+      max_short_pct: 0.0
+    severity: "ERROR"
+    enabled: true
+  
+  leverage_limit:
+    rule_type: "leverage"
+    parameters:
+      max_leverage: 1.0
+      include_margin: true
+    severity: "ERROR"
+    enabled: true
+  
+  trading_hours:
+    rule_type: "trading_time"
+    parameters:
+      market_open: "09:15"  # IST market hours
+      market_close: "15:30"
+      timezone: "Asia/Kolkata"
+    severity: "WARNING"
+    enabled: true
+
+enforcement:
+  block_on_error: true
+  warn_on_warning: true
+  notification_channels:
+    - "email"
+    - "slack"
+    - "log"
+
+sector_mapping:
+  # Technology
+  TCS: "technology"
+  INFY: "technology"
+  HCLTECH: "technology"
+  WIPRO: "technology"
+  TECHM: "technology"
+  
+  # Financial Services
+  HDFCBANK: "financial"
+  ICICIBANK: "financial"
+  KOTAKBANK: "financial"
+  SBIN: "financial"
+  AXISBANK: "financial"
+  
+  # Energy
+  RELIANCE: "energy"
+  ONGC: "energy"
+  BPCL: "energy"
+  
+  # Consumer Goods
+  HINDUNILVR: "consumer"
+  ITC: "consumer"
+  NESTLEIND: "consumer"
+  TATACONSUM: "consumer"
+  BRITANNIA: "consumer"

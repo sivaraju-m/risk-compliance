@@ -1,0 +1,51 @@
+risk_limits:
+  portfolio_var_95:
+    limit_type: "var_95"
+    threshold: -0.05
+    severity: "WARNING"
+    enabled: true
+  portfolio_var_99:
+    limit_type: "var_99"
+    threshold: -0.10
+    severity: "ERROR"
+    enabled: true
+  portfolio_volatility:
+    limit_type: "volatility"
+    threshold: 0.25
+    severity: "WARNING"
+    enabled: true
+  max_drawdown:
+    limit_type: "max_drawdown"
+    threshold: -0.15
+    severity: "ERROR"
+    enabled: true
+  concentration_risk:
+    limit_type: "concentration_risk"
+    threshold: 0.40
+    severity: "WARNING"
+    enabled: true
+  position_limit:
+    limit_type: "position_size"
+    threshold: 0.10
+    severity: "WARNING"
+    enabled: true
+
+monitoring:
+  check_interval_seconds: 60
+  enable_real_time: true
+  alert_cooldown_minutes: 5
+
+stress_scenarios:
+  market_crash:
+    description: "20% market decline"
+    shocks:
+      "*": -0.20
+  sector_rotation:
+    description: "Tech down 15%, value up 5%"
+    shocks:
+      tech: -0.15
+      value: 0.05
+  volatility_spike:
+    description: "High volatility scenario"
+    shocks:
+      "*": -0.10

@@ -1,25 +1,12 @@
 """
-SEBI Compliance Module
-
-This module provides comprehensive SEBI compliance features for the AI Trading Machine.
+Compliance Module
+Contains compliance checking and rule enforcement components
 """
 
-from .sebi_compliance import (
-    AuditRecord,
-    CircuitBreakerConfig,
-    CircuitBreakerStatus,
-    ComplianceStatus,
-    SEBICompliance,
-)
-
-from .compliance_checker import ComplianceChecker, compliance_checker
+from .checker import ComplianceChecker, ComplianceRule, ComplianceViolation
 
 __all__ = [
-    "SEBICompliance",
-    "ComplianceStatus",
-    "CircuitBreakerStatus",
-    "AuditRecord",
-    "CircuitBreakerConfig",
     "ComplianceChecker",
-    "compliance_checker",
+    "ComplianceRule",
+    "ComplianceViolation"
 ]

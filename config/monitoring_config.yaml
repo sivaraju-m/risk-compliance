@@ -1,0 +1,36 @@
+monitoring:
+  enabled: true
+  check_interval_seconds: 60
+  data_retention_days: 30
+
+alerts:
+  enabled: true
+  email_notifications: false
+  slack_notifications: false
+  log_alerts: true
+
+reporting:
+  daily_reports: true
+  weekly_reports: true
+  monthly_reports: true
+  report_formats:
+    - "pdf"
+    - "html"
+    - "json"
+
+data_sources:
+  bigquery:
+    enabled: true
+    project_id: "ai-trading-machine"
+    dataset: "trading_data"
+    
+  local_files:
+    enabled: true
+    data_directory: "./data"
+    
+  universe_config:
+    file_path: "expanded_universe.json"
+    fallback_paths:
+      - "../ai-trading-machine/config/expanded_universe.json"
+      - "../../ai-trading-machine/config/expanded_universe.json"
+      - "../../../ai-trading-machine/config/expanded_universe.json"

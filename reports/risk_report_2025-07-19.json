@@ -1,0 +1,31 @@
+{
+  "report_date": "2025-07-19",
+  "generation_time": "2025-07-19T13:41:39.305345",
+  "portfolio_summary": {
+    "total_value": 1026731.2878369264,
+    "total_pnl": 53262.96626874394,
+    "positions_count": 20,
+    "leverage": 1.0
+  },
+  "risk_metrics": {
+    "var_95": -0.007095567241065443,
+    "var_99": -0.010064741284396984,
+    "cvar_95": -0.009063340189019461,
+    "volatility": 0.07796188062258819,
+    "sharpe_ratio": 2.236501443092516,
+    "max_drawdown": -0.03776362952419146,
+    "concentration_risk": 0.05797102369157957
+  },
+  "compliance_status": {
+    "active_rules": 7,
+    "total_rules": 7,
+    "total_violations": 0,
+    "unresolved_violations": 0,
+    "critical_violations": 0,
+    "error_violations": 0,
+    "warning_violations": 0
+  },
+  "recommendations": [
+    "Risk metrics are within acceptable ranges. Continue monitoring."
+  ]
+}

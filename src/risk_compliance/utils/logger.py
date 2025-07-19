@@ -1,152 +1,83 @@
 """
-Logger Configuration for AI Trading Machine
-==========================================
-
-Centralized logging configuration with proper formatting,
-file rotation, and different log levels for development and production.
-
-Author: AI Trading Machine
-Licensed by SJ Trading
+Logger Configuration for Risk Compliance System
 """
 
 import logging
-import logging.handlers
-import os
 import sys
+from pathlib import Path
+from datetime import datetime
 from typing import Optional
 
-
-class Logger:
+def setup_logger(name: str, log_level: str = "INFO", 
+                log_file: Optional[str] = None) -> logging.Logger:
     """
-    Wrapper class for logging functionality.
-    Provides a consistent interface for logging across the application.
-    """
-
-    def __init__(self, name: str, level: Optional[str] = None):
-        """Initialize logger with given name and level."""
-        self.logger = setup_logger(name, level)
-
-    def debug(self, message: str):
-        """Log debug message."""
-        self.logger.debug(message)
-
-    def info(self, message: str):
-        """Log info message."""
-        self.logger.info(message)
-
-    def warning(self, message: str):
-        """Log warning message."""
-        self.logger.warning(message)
-
-    def error(self, message: str):
-        """Log error message."""
-        self.logger.error(message)
-
-    def critical(self, message: str):
-        """Log critical message."""
-        self.logger.critical(message)
-
-
-def setup_logger(
-    name: str,
-    level: Optional[str] = None,
-    log_file: Optional[str] = None,
-    console_output: bool = True,
-    file_output: bool = True,
-) -> logging.Logger:
-    """
-    Setup a logger with consistent formatting and handlers.
-
+    Setup logger with consistent formatting
+    
     Args:
-        name: Logger name (usually __name__)
-        level: Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+        name: Logger name
+        log_level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
         log_file: Optional log file path
-        console_output: Whether to output to console
-        file_output: Whether to output to file
-
+    
     Returns:
         Configured logger instance
     """
-    # Get log level from environment or parameter
-    if level is None:
-        level = os.getenv("LOG_LEVEL", "INFO").upper()
-
+    
     # Create logger
     logger = logging.getLogger(name)
-    logger.setLevel(getattr(logging, level))
-
-    # Avoid duplicate handlers
+    
+    # Don't add handlers if they already exist
     if logger.handlers:
         return logger
-
+    
+    # Set log level
+    numeric_level = getattr(logging, log_level.upper(), logging.INFO)
+    logger.setLevel(numeric_level)
+    
     # Create formatter
     formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
     )
-
+    
     # Console handler
-    if console_output:
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(getattr(logging, level))
-        console_handler.setFormatter(formatter)
-        logger.addHandler(console_handler)
-
-    # File handler with rotation
-    if file_output:
-        if log_file is None:
-            # Default log file location
-            log_dir = os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs")
-            os.makedirs(log_dir, exist_ok=True)
-            log_file = os.path.join(
-                log_dir, "ai_trading_machine_{datetime.now().strftime('%Y%m%d')}.log"
-            )
-
-        # Rotating file handler (10MB max, keep 5 files)
-        file_handler = logging.handlers.RotatingFileHandler(
-            log_file, maxBytes=10 * 1024 * 1024, backupCount=5  # 10MB
-        )
-        file_handler.setLevel(getattr(logging, level))
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
-
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(numeric_level)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+    
+    # File handler (if specified)
+    if log_file:
+        try:
+            # Create log directory if it doesn't exist
+            log_path = Path(log_file)
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setLevel(numeric_level)
+            file_handler.setFormatter(formatter)
+            logger.addHandler(file_handler)
+        except Exception as e:
+            print(f"Failed to create file handler for {log_file}: {str(e)}")
+    
     return logger
 
-
-def get_trading_logger() -> logging.Logger:
-    """Get the main trading logger."""
-    return setup_logger("ai_trading_machine.trading")
-
-
-def get_backtest_logger() -> logging.Logger:
-    """Get the backtesting logger."""
-    return setup_logger("ai_trading_machine.backtest")
-
-
-def get_data_logger() -> logging.Logger:
-    """Get the data ingestion logger."""
-    return setup_logger("ai_trading_machine.data")
-
-
-def get_strategy_logger() -> logging.Logger:
-    """Get the strategy logger."""
-    return setup_logger("ai_trading_machine.strategy")
-
-
-# Configure root logger for the package
-def configure_package_logging():
-    """Configure logging for the entire AI Trading Machine package."""
-    # Set up root logger
-    root_logger = setup_logger("ai_trading_machine")
-
-    # Suppress verbose logging from external libraries
-    logging.getLogger("urllib3").setLevel(logging.WARNING)
-    logging.getLogger("requests").setLevel(logging.WARNING)
-    logging.getLogger("matplotlib").setLevel(logging.WARNING)
-    logging.getLogger("yfinance").setLevel(logging.WARNING)
-
-    return root_logger
-
-
-# Auto-configure when module is imported
-configure_package_logging()
+def get_default_log_file(component: str = "risk_compliance") -> str:
+    """
+    Get default log file path
+    
+    Args:
+        component: Component name for log file
+    
+    Returns:
+        Default log file path
+    """
+    
+    # Get logs directory
+    logs_dir = Path(__file__).parent.parent.parent.parent / "logs"
+    logs_dir.mkdir(exist_ok=True)
+    
+    # Create log file name with timestamp
+    timestamp = datetime.now().strftime('%Y%m%d')
+    log_file = logs_dir / f"{component}_{timestamp}.log"
+    
+    return str(log_file)
