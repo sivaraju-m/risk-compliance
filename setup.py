@@ -12,7 +12,7 @@ setup(
         "shared-services>=0.1.0",
         "google-cloud-firestore>=2.0.0",
         "google-cloud-storage>=2.0.0",
-        "google-cloud-pubsub>=2.0.0"
+        "google-cloud-pubsub>=2.0.0",
     ],
     author="AI Trading Machine Team",
     author_email="team@aitradingmachine.com",

@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from risk_compliance.risk.risk_manager import PositionSizingResult, RiskMetrics
 
+
 def test_position_sizing_result():
     """Test the PositionSizingResult dataclass"""
     # Create a position sizing result
@@ -15,9 +16,9 @@ def test_position_sizing_result():
         risk_amount=450.0,
         risk_percentage=3.0,
         confidence_level=0.95,
-        risk_metrics={"var": 0.02, "cvar": 0.03, "drawdown": 0.05}
+        risk_metrics={"var": 0.02, "cvar": 0.03, "drawdown": 0.05},
     )
-    
+
     # Verify the attributes
     assert result.symbol == "AAPL"
     assert result.position_size == 100
@@ -27,6 +28,7 @@ def test_position_sizing_result():
     assert result.confidence_level == 0.95
     assert "var" in result.risk_metrics
     assert result.risk_metrics["var"] == 0.02
+
 
 def test_risk_metrics():
     """Test the RiskMetrics dataclass"""
@@ -39,9 +41,9 @@ def test_risk_metrics():
         daily_volatility=0.015,
         annualized_volatility=0.25,
         max_drawdown=0.35,
-        downside_deviation=0.018
+        downside_deviation=0.018,
     )
-    
+
     # Verify the attributes
     assert metrics.var_95 == 0.02
     assert metrics.cvar_95 == 0.03
